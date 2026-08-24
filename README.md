@@ -100,22 +100,36 @@ obvious on purpose.
 Point `_data/photos.yml` at whatever filenames you use and delete the
 placeholders.
 
-The caricatures at `assets/images/charlie.png` and `beverly.png` must keep a
-genuinely transparent background, because they sit straight on the black hero
-with no frame. Watch out for art exported as a screenshot: that bakes the
-editor's grey chequerboard in as real pixels, and it shows up as a pale square
-on the page. Strip it with a flood fill from the corners rather than a plain
-"remove white", which would punch holes in the light areas of the drawing:
+`assets/images/charlie.png` and `beverly.png` are web copies, not the art
+itself. The full size originals stay in `src/images` as `charlie-orig.png` and
+`beverly-orig.png`. The build leaves `src` out of the site, so the heavy files
+never ship. Rebuild a web copy from its original with:
+
+```sh
+magick src/images/charlie-orig.png -strip -resize 800x800 -colors 256 \
+  -define png:compression-level=9 assets/images/charlie.png
+```
+
+The hero renders them at 320px at the widest, so 800px leaves more than the 2x
+a retina screen needs. A 256 colour palette takes the pair from 2.4MB to 293KB
+with no difference you can see, even at twice the rendered size. These drawings
+quantise well because they are grey pencil work over one flat red field. Going
+below 256 saves almost nothing and doubles the error, so there is no reason to.
+Check a face crop at 2x after changing the numbers.
+
+Both caricatures must keep a genuinely transparent background, because they sit
+straight on the black hero with no frame. Watch out for art exported as a
+screenshot: that bakes the editor's grey chequerboard in as real pixels, and it
+shows up as a pale square on the page. Strip it with a flood fill from the
+corners rather than a plain "remove white", which would punch holes in the light
+areas of the drawing:
 
 ```sh
 magick in.png -alpha set -fuzz 10% \
   -fill none -draw 'alpha 0,0 floodfill' \
   -fill none -draw 'alpha %[fx:w-1],0 floodfill' \
-  -resize 800x800 -colors 96 assets/images/charlie.png
+  src/images/charlie-orig.png
 ```
-
-Ninety-six colours drops the file from about 1MB to about 200KB with no
-visible difference at the size the page renders it.
 
 `assets/images/meta.png` is the social sharing card. It has the `kicker` and
 `tagline` from `_data/band.yml` baked into it, so regenerate it whenever either
@@ -158,6 +172,7 @@ _includes/nav.html       Section bar, sits under the hero and pins on scroll
 _layouts/default.html    The public page
 _layouts/panel.html      The admin page
 src/site.css             Tailwind entry point and the design tokens
+src/images/              Full size art originals, not published
 assets/js/site.js        Menu, show list, lightbox, booking form
 assets/js/admin.js       The admin panel
 netlify/functions/       login, logout, session, shows

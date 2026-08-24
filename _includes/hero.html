@@ -18,7 +18,7 @@
       {%- if member.image and member.image != "" %}
       <img src="{{ member.image }}" alt="Caricature of {{ member.name }}"
            width="800" height="800" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
-           class="w-36 shrink-0 sm:w-52 lg:w-60">
+           class="w-40 min-w-0 shrink sm:w-64 lg:w-80">
       {%- endif %}
       {%- endfor %}
     </div>
