@@ -30,14 +30,14 @@ genres: []
 members:
   - name: Charlie Lusso
     short_name: Charlie
-    role: Guitar / Lead & harmony vocals
+    role: Guitar & Vocals
     # One true sentence about Charlie. Hidden while this is blank.
     bio: ""
     image: /assets/images/charlie.png
 
   - name: Beverly Lusso
     short_name: Beverly
-    role: Keyboard / Lead & harmony vocals
+    role: Keyboards & Vocals
     # One true sentence about Beverly. Hidden while this is blank.
     bio: ""
     image: /assets/images/beverly.png
