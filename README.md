@@ -117,13 +117,13 @@ magick in.png -alpha set -fuzz 10% \
 Ninety-six colours drops the file from about 1MB to about 200KB with no
 visible difference at the size the page renders it.
 
-`assets/images/og.png` is the social sharing card. It has the `kicker` and
+`assets/images/meta.png` is the social sharing card. It has the `kicker` and
 `tagline` from `_data/band.yml` baked into it, so regenerate it whenever either
 of those changes:
 
 ```sh
 node scripts/og-card.mjs
-rsvg-convert -w 1200 -h 630 src/og.svg -o assets/images/og.png
+rsvg-convert -w 1200 -h 630 src/og.svg -o assets/images/meta.png
 ```
 
 `rsvg-convert` comes from `brew install librsvg`.

@@ -1,5 +1,5 @@
 // Builds src/og.svg, the source for the social sharing card. Rasterise it with:
-//   rsvg-convert -w 1200 -h 630 src/og.svg -o assets/images/og.png
+//   rsvg-convert -w 1200 -h 630 src/og.svg -o assets/images/meta.png
 // Re-run this whenever the kicker or the tagline in _data/band.yml changes.
 
 import { readFile, writeFile } from "node:fs/promises";
