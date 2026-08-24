@@ -1,0 +1,32 @@
+# Gallery photos, in the order they appear. The section hides itself if this
+# list is empty.
+#
+# To use real photos: drop files into assets/images/photos/, point `src` at
+# them and write a real `alt` line. Landscape JPGs around 1600px wide look
+# best. Delete any placeholder entries you have not filled in.
+#
+# `featured: true` makes a tile span two columns on wide screens.
+
+- src: /assets/images/photos/placeholder-1.svg
+  alt: Placeholder for a photo of the duo on stage
+  placeholder: true
+
+- src: /assets/images/photos/placeholder-2.svg
+  alt: Placeholder for a photo of Charlie playing guitar
+  placeholder: true
+
+- src: /assets/images/photos/placeholder-3.svg
+  alt: Placeholder for a photo of Beverly at the keyboard
+  placeholder: true
+
+- src: /assets/images/photos/placeholder-4.svg
+  alt: Placeholder for a photo of the crowd at a show
+  placeholder: true
+
+- src: /assets/images/photos/placeholder-5.svg
+  alt: Placeholder for a photo of the stage setup
+  placeholder: true
+
+- src: /assets/images/photos/placeholder-6.svg
+  alt: Placeholder for a photo of the duo outdoors
+  placeholder: true

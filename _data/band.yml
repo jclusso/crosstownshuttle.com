@@ -1,0 +1,63 @@
+# Everything on the public page that is not a show date comes from this file.
+
+name: Crosstown Shuttle
+
+# The small red line above the logo in the hero.
+kicker: Live music duo
+
+# Shown next to the kicker. Blank hides it.
+region: ""
+
+# The one big line under the logo. Keep it short.
+tagline: Two of us, and the sound of a whole band.
+
+blurb: >-
+  Crosstown Shuttle is a duo that fills a room like a bigger band. Charlie
+  plays guitar, Beverly plays keyboard, and both of us sing lead and harmony,
+  which is the part most duos cannot cover. We play a wide range of music
+  across a lot of genres, and we are always looking for new and fun places
+  to perform.
+
+# The pills under the tagline. Keep each one to a few words.
+highlights:
+  - Lead & harmony vocals
+  - A wide range of genres
+  - Always taking new rooms
+
+# Used for the structured data search engines read. Add the genres they
+# actually play, most common first. Leave the list empty to omit it.
+genres: []
+
+members:
+  - name: Charlie Lusso
+    short_name: Charlie
+    role: Guitar / Lead & harmony vocals
+    bio: >-
+      Charlie plays guitar and sings both lead and harmony, trading the lead
+      back and forth with Beverly through the set.
+    image: /assets/images/charlie.png
+
+  - name: Beverly Lusso
+    short_name: Beverly
+    role: Keyboard / Lead & harmony vocals
+    bio: >-
+      Beverly plays keyboard and sings both lead and harmony. The keys are a
+      good part of why two people end up sounding like four.
+    image: /assets/images/beverly.png
+
+booking:
+  # Small red label above the heading. Keep it to a word or two.
+  eyebrow: Dispatch
+  heading: Book the Shuttle
+  intro: >-
+    We are always looking for new and fun places to play. Send us the date and
+    the details and we will get right back to you.
+  # Leave blank to hide. These are only shown as extra options under the form.
+  email: ""
+  phone: ""
+
+social:
+  # Fill in the real URLs. Any left blank is hidden.
+  facebook: ""
+  instagram: ""
+  youtube: ""

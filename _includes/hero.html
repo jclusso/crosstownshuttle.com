@@ -1,0 +1,40 @@
+{%- assign band = site.data.band -%}
+<section id="top" class="relative isolate overflow-hidden border-b-2 border-line">
+  <div class="grid-lines absolute inset-0 -z-20" aria-hidden="true"></div>
+  <div class="absolute left-1/2 top-[-8rem] -z-10 h-[28rem] w-[52rem] max-w-none -translate-x-1/2 rounded-full bg-brand/20 blur-[110px]" aria-hidden="true"></div>
+
+  <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-18 lg:py-20">
+    <h1 class="flex justify-center">
+      <img src="/assets/images/logo.svg" alt="{{ band.name }}" width="3000" height="992"
+           class="h-16 w-auto sm:h-20 lg:h-24" fetchpriority="high">
+    </h1>
+
+    <p class="eyebrow mt-5 text-center">
+      {{ band.kicker }}{% if band.region and band.region != "" %} &middot; {{ band.region }}{% endif %}
+    </p>
+
+    <div class="mt-10 flex items-center justify-center gap-3 sm:mt-12 sm:gap-8">
+      {%- for member in band.members %}
+      {%- if member.image and member.image != "" %}
+      <img src="{{ member.image }}" alt="Caricature of {{ member.name }}"
+           width="800" height="800" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+           class="w-36 shrink-0 sm:w-52 lg:w-60">
+      {%- endif %}
+      {%- endfor %}
+    </div>
+
+    <p class="mx-auto mt-10 max-w-2xl text-center text-lg leading-relaxed text-chalk/90 sm:text-xl">
+      {{ band.tagline }}
+    </p>
+
+    {%- if band.highlights and band.highlights.size > 0 %}
+    <ul class="mt-7 flex flex-wrap items-center justify-center gap-x-2 gap-y-2">
+      {%- for item in band.highlights %}
+      <li class="border border-line bg-ink-800/80 px-3 py-1.5 font-display text-[0.7rem] font-bold uppercase tracking-[0.14em] text-muted">
+        {{ item | escape }}
+      </li>
+      {%- endfor %}
+    </ul>
+    {%- endif %}
+  </div>
+</section>

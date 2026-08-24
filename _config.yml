@@ -1,0 +1,34 @@
+title: Crosstown Shuttle
+tagline: Live music duo
+description: >-
+  A live music duo with the sound of a full band. Charlie and Beverly both sing
+  lead and harmony, across a wide range of genres. Now booking shows.
+url: https://crosstownshuttle.com
+baseurl: ""
+lang: en
+timezone: America/New_York
+
+plugins:
+  - jekyll-sitemap
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - bin
+  - deno.lock
+  - netlify
+  - netlify.toml
+  - node_modules
+  - package-lock.json
+  - package.json
+  - scripts
+  - seed
+  - src
+  - vendor
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default

@@ -1,0 +1,21 @@
+{%- assign band = site.data.band -%}
+<section id="duo" class="border-b-2 border-line py-16 sm:py-24">
+  <div class="mx-auto max-w-5xl px-4 sm:px-6">
+    {% include section-heading.html eyebrow="On board" title="The duo" lede=band.blurb %}
+
+    {%- comment -%}
+      No portraits here on purpose. The hero already shows both caricatures at
+      full size, and repeating the same art halfway down the page weakens it.
+    {%- endcomment -%}
+    <div class="mt-12 grid gap-6 sm:grid-cols-2">
+      {%- for member in band.members %}
+      <article class="card p-6 sm:p-7">
+        <h3 class="text-2xl">{{ member.name }}</h3>
+        <p class="mt-2 font-display text-xs font-bold uppercase tracking-[0.18em] text-brand">{{ member.role | escape }}</p>
+        <div class="mt-4 h-0.5 w-10 bg-line-bright" aria-hidden="true"></div>
+        <p class="mt-4 text-sm leading-relaxed text-muted">{{ member.bio }}</p>
+      </article>
+      {%- endfor %}
+    </div>
+  </div>
+</section>

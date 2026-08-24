@@ -1,0 +1,14 @@
+{%- comment -%}
+  Sits below the hero and pins to the top once it is scrolled past, so the
+  poster gets the first screen to itself. No logo here: the hero carries it.
+{%- endcomment -%}
+<nav class="sticky top-0 z-50 border-b-2 border-line bg-ink/95 backdrop-blur-md" aria-label="Sections">
+  <div class="mx-auto flex max-w-5xl items-center justify-center gap-4 px-3 py-3 sm:gap-8 sm:px-6">
+    <a href="#shows" class="font-display text-[0.7rem] font-bold uppercase tracking-[0.14em] text-muted transition-colors hover:text-chalk sm:text-xs sm:tracking-[0.18em]">Shows</a>
+    <a href="#duo" class="font-display text-[0.7rem] font-bold uppercase tracking-[0.14em] text-muted transition-colors hover:text-chalk sm:text-xs sm:tracking-[0.18em]">The duo</a>
+    {%- if site.data.photos and site.data.photos.size > 0 %}
+    <a href="#photos" class="font-display text-[0.7rem] font-bold uppercase tracking-[0.14em] text-muted transition-colors hover:text-chalk sm:text-xs sm:tracking-[0.18em]">Photos</a>
+    {%- endif %}
+    <a href="#book" class="btn btn-brand !px-3.5 !py-2 !text-[0.65rem] !tracking-[0.14em] sm:!px-4 sm:!text-[0.7rem]">Book us</a>
+  </div>
+</nav>

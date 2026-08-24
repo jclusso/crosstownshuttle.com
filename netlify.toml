@@ -1,37 +1,54 @@
-[dev]
-  command = "bin/bridgetown dev"
-  targetPort = 4000
-  port = 8888
-  publish = "output"
-  autoLaunch = true
-  framework = "#custom"
-
-[context.dev.build.environment]
-  NODE_ENV = "development"
-  BRIDGETOWN_ENV = "development"
-
 [build]
-  command = "bin/bridgetown deploy"
-  publish = "output"
+  command = "npm run build"
+  publish = "_site"
+  functions = "netlify/functions"
 
 [build.environment]
-  NODE_ENV = "development"
-  BRIDGETOWN_ENV = "production"
+  NODE_VERSION = "22"
+  RUBY_VERSION = "3.3.0"
 
-[build.processing.html]
-  pretty_urls = true
+[dev]
+  command = "bin/dev"
+  targetPort = 4000
+  port = 8888
+  publish = "_site"
+  framework = "#custom"
+  autoLaunch = false
+
+[functions]
+  node_bundler = "esbuild"
 
 [[headers]]
-  for = "*"
+  for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
-    Strict-Transport-Security = "max-age=15552000; includeSubDomains"
-    Referrer-Policy = "no-referrer-when-downgrade"
-    Cache-Control = "public, max-age=604800, s-max-age=604800"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
 
 [[headers]]
-  for = "/*.(png|jpg|js|css|svg|woff|ttf|eot|ico|woff2)"
+  for = "/assets/images/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, s-max-age=31536000"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/favicon/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"

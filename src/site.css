@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@source "../_layouts/**/*.html";
+@source "../_includes/**/*.html";
+@source "../*.html";
+@source "../assets/js/**/*.js";
+
+@theme {
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #0a0a0a;
+  --color-ink-800: #101010;
+  --color-ink-700: #171717;
+  --color-ink-600: #202020;
+  --color-line: #2b2b2b;
+  --color-line-bright: #3f3f3f;
+  --color-chalk: #f4f4f5;
+  --color-muted: #9a9aa0;
+  --color-brand: #ee352e;
+  --color-brand-600: #c9231d;
+  --color-brand-100: #ffdedc;
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5.5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-ink font-sans text-chalk antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display font-extrabold uppercase tracking-tight text-balance;
+  }
+
+  ::selection {
+    @apply bg-brand text-white;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand;
+  }
+}
+
+@layer components {
+  /* Transit signage plate: heavy border, flat fill, all caps. */
+  .plate {
+    @apply border-2 border-chalk/85 bg-ink px-5 py-3 font-display font-extrabold
+           uppercase leading-none tracking-tight;
+  }
+
+  .plate-brand {
+    @apply border-brand bg-brand text-white;
+  }
+
+  /* Small route-badge pill, like a line bullet on a subway map. */
+  .bullet {
+    @apply inline-flex size-7 shrink-0 items-center justify-center rounded-full
+           bg-brand font-display text-sm font-extrabold text-white;
+  }
+
+  .eyebrow {
+    @apply font-display text-xs font-extrabold uppercase tracking-[0.22em] text-brand;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 border-2 px-6 py-3
+           font-display text-sm font-extrabold uppercase tracking-widest
+           transition-colors duration-150;
+  }
+
+  .btn-brand {
+    @apply border-brand bg-brand text-white hover:border-brand-600 hover:bg-brand-600;
+  }
+
+  .btn-ghost {
+    @apply border-chalk/40 text-chalk hover:border-chalk hover:bg-chalk hover:text-ink;
+  }
+
+  .btn-quiet {
+    @apply border-line bg-ink-700 text-chalk hover:border-line-bright hover:bg-ink-600;
+  }
+
+  .btn:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  .field-label {
+    @apply mb-1.5 block font-display text-xs font-bold uppercase tracking-[0.16em] text-muted;
+  }
+
+  .field {
+    @apply w-full border-2 border-line bg-ink-800 px-3.5 py-2.5 text-chalk
+           placeholder:text-muted/50 focus:border-brand focus:outline-none;
+  }
+
+  .card {
+    @apply border-2 border-line bg-ink-800;
+  }
+}
+
+@utility hatch {
+  /* Diagonal safety hatching, the kind painted on platform edges. */
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--color-brand) 55%, transparent) 0 2px,
+    transparent 2px 11px
+  );
+}
+
+@utility grid-lines {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, white 4%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, white 4%, transparent) 1px, transparent 1px);
+  background-size: 72px 72px;
+}

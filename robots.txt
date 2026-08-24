@@ -1,0 +1,9 @@
+---
+permalink: /robots.txt
+layout: null
+---
+User-agent: *
+Disallow: /admin/
+Disallow: /thanks/
+
+Sitemap: {{ '/sitemap.xml' | absolute_url }}

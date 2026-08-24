@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Local development: Tailwind in watch mode plus a Jekyll server on :4000.
+# Run `npm run serve` instead to get the Netlify functions on :8888 as well.
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+node scripts/pull-shows.mjs
+npx tailwindcss --input src/site.css --output assets/css/site.css
+
+npx tailwindcss --input src/site.css --output assets/css/site.css --watch &
+tailwind_pid=$!
+trap 'kill "$tailwind_pid" 2>/dev/null || true' EXIT INT TERM
+
+exec bundle exec jekyll serve --host 127.0.0.1 --port 4000 --livereload --livereload-port 4001
