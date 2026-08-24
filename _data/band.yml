@@ -12,17 +12,16 @@ region: ""
 tagline: Two of us, and the sound of a whole band.
 
 blurb: >-
-  Crosstown Shuttle is a duo that fills a room like a bigger band. Charlie
-  plays guitar, Beverly plays keyboard, and both of us sing lead and harmony,
-  which is the part most duos cannot cover. We play a wide range of music
-  across a lot of genres, and we are always looking for new and fun places
-  to perform.
+  We are The Crosstown Shuttle, a duo with the sound of a bigger band. Charlie
+  plays guitar, Beverly plays keyboard, and we both sing lead and harmony,
+  swapping the lead from song to song. We play all kinds of music and are
+  always glad to find a new place to play.
 
 # The pills under the tagline. Keep each one to a few words.
 highlights:
   - Lead & harmony vocals
-  - A wide range of genres
-  - Always taking new rooms
+  - All kinds of music
+  - Booking new places
 
 # Used for the structured data search engines read. Add the genres they
 # actually play, most common first. Leave the list empty to omit it.
@@ -32,17 +31,15 @@ members:
   - name: Charlie Lusso
     short_name: Charlie
     role: Guitar / Lead & harmony vocals
-    bio: >-
-      Charlie plays guitar and sings both lead and harmony, trading the lead
-      back and forth with Beverly through the set.
+    # One true sentence about Charlie. Hidden while this is blank.
+    bio: ""
     image: /assets/images/charlie.png
 
   - name: Beverly Lusso
     short_name: Beverly
     role: Keyboard / Lead & harmony vocals
-    bio: >-
-      Beverly plays keyboard and sings both lead and harmony. The keys are a
-      good part of why two people end up sounding like four.
+    # One true sentence about Beverly. Hidden while this is blank.
+    bio: ""
     image: /assets/images/beverly.png
 
 booking:
@@ -50,8 +47,8 @@ booking:
   eyebrow: Dispatch
   heading: Book the Shuttle
   intro: >-
-    We are always looking for new and fun places to play. Send us the date and
-    the details and we will get right back to you.
+    We are always looking for a new place to play. Send us the date and a few
+    details, and we'll get back to you soon.
   # Leave blank to hide. These are only shown as extra options under the form.
   email: ""
   phone: ""

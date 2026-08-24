@@ -36,10 +36,12 @@
         <span aria-hidden="true" class="absolute left-0.5 top-7 size-5 rounded-full border-[3px] ${dot}"></span>
         <article class="card">
           <div class="flex gap-4 p-4 sm:gap-6 sm:p-6">
-            <div class="w-[4.25rem] shrink-0 border-2 border-line text-center sm:w-20">
+            <div class="flex w-[4.25rem] shrink-0 flex-col border-2 border-line text-center sm:w-20">
               <p class="border-b-2 border-line bg-ink-700 py-1 font-display text-[0.65rem] font-bold uppercase tracking-[0.16em] ${weekday}">${escapeHtml(show.weekday)}</p>
-              <p class="pt-2 font-display text-2xl font-extrabold leading-none sm:text-3xl">${escapeHtml(show.day)}</p>
-              <p class="pb-2 pt-1 font-display text-[0.65rem] font-bold uppercase tracking-[0.16em] text-muted">${escapeHtml(show.month)}</p>
+              <div class="flex flex-1 flex-col justify-center px-1 py-2.5">
+                <p class="font-display text-2xl font-extrabold leading-none sm:text-3xl">${escapeHtml(show.day)}</p>
+                <p class="mt-1 font-display text-[0.65rem] font-bold uppercase tracking-[0.16em] text-muted">${escapeHtml(show.month)}</p>
+              </div>
             </div>
             <div class="min-w-0 flex-1">
               <div class="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
