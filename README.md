@@ -128,11 +128,14 @@ rsvg-convert -w 1200 -h 630 src/og.svg -o assets/images/og.png
 
 ## Using the admin panel
 
-Go to `/admin`, enter the password, and the show list opens. Every row is a
-show. Add a show, change any field, or remove a row, then press Save. Only the
-date and the venue are required. Upcoming shows sort to the top and shows that
-have already happened drop to the bottom, marked "Past". Past shows stay in the
-list until someone removes them, and they never show on the public page.
+Go to `/admin`, enter the password, and the show list opens. Each show is one
+collapsed row that gives the date, the venue, the town and the time. Press Edit
+on a row to open its fields, then press Save. Each show saves on its own. Only
+the date and the venue are required.
+
+The list gives the upcoming shows first. Press Past for the shows that have
+already happened, or All for both. A past show keeps a "Past" mark, stays in the
+list until someone removes it, and never shows on the public page.
 
 The sign in lasts 30 days on that device.
 
