@@ -5,7 +5,6 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-node scripts/pull-shows.mjs
 npx tailwindcss --input src/site.css --output assets/css/site.css
 
 npx tailwindcss --input src/site.css --output assets/css/site.css --watch &

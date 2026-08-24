@@ -4,12 +4,7 @@ const STORE_NAME = "band";
 const KEY = "shows";
 
 function store() {
-  const siteID = process.env.SITE_ID || process.env.NETLIFY_SITE_ID;
-  const token = process.env.NETLIFY_API_TOKEN || process.env.NETLIFY_AUTH_TOKEN;
-  const options = { name: STORE_NAME, consistency: "strong" };
-  // Functions get credentials from the runtime; a build step has to be told.
-  if (siteID && token) Object.assign(options, { siteID, token });
-  return getStore(options);
+  return getStore({ name: STORE_NAME, consistency: "strong" });
 }
 
 /** Returns null when nothing has ever been saved, so callers can fall back. */
