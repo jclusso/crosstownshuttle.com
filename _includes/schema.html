@@ -15,7 +15,7 @@
   "url": {{ site.url | jsonify }},
   "description": {{ site.description | strip_newlines | strip | jsonify }},
   "logo": {{ '/assets/images/logo.svg' | absolute_url | jsonify }},
-  "image": {{ '/assets/images/og.png' | absolute_url | jsonify }},
+  "image": {{ '/assets/images/meta.png' | absolute_url | jsonify }},
   {%- if band.genres and band.genres.size > 0 %}
   "genre": {{ band.genres | jsonify }},
   {%- endif %}
