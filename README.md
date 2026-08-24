@@ -36,7 +36,7 @@ build script and the function both import, so there is one implementation.
 
 ## Setup
 
-Needs Ruby 3.3.0 and Node 20 or newer.
+Needs Ruby 4.0.6 and Node 20 or newer.
 
 ```sh
 bundle install
