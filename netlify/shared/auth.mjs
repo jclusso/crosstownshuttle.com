@@ -3,12 +3,16 @@ import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 const COOKIE_NAME = "cts_session";
 const TTL_SECONDS = 60 * 60 * 24 * 30;
 
-function hmac(data, secret) {
-  return createHmac("sha256", secret).update(data).digest("base64url");
-}
-
 function sha256(value) {
   return createHash("sha256").update(String(value), "utf8").digest();
+}
+
+function signingKey() {
+  return sha256(`cts.session.${process.env.ADMIN_PASSWORD || ""}`);
+}
+
+function hmac(data) {
+  return createHmac("sha256", signingKey()).update(data).digest("base64url");
 }
 
 function equal(a, b) {
@@ -20,27 +24,26 @@ function equal(a, b) {
 
 export function config() {
   const password = process.env.ADMIN_PASSWORD || "";
-  const secret = process.env.SESSION_SECRET || "";
-  return { password, secret, ready: password.length > 0 && secret.length > 0 };
+  return { password, ready: password.length > 0 };
 }
 
 export function passwordMatches(given, expected) {
   return timingSafeEqual(sha256(given), sha256(expected));
 }
 
-export function issueToken(secret, ttl = TTL_SECONDS) {
+export function issueToken(ttl = TTL_SECONDS) {
   const expires = Math.floor(Date.now() / 1000) + ttl;
   const payload = `v1.${expires}`;
-  return `${payload}.${hmac(payload, secret)}`;
+  return `${payload}.${hmac(payload)}`;
 }
 
-export function tokenIsValid(token, secret) {
-  if (!token || !secret) return false;
+export function tokenIsValid(token) {
+  if (!token) return false;
   const parts = token.split(".");
   if (parts.length !== 3) return false;
   const [version, expires, signature] = parts;
   if (version !== "v1") return false;
-  if (!equal(signature, hmac(`${version}.${expires}`, secret))) return false;
+  if (!equal(signature, hmac(`${version}.${expires}`))) return false;
   return Number(expires) > Math.floor(Date.now() / 1000);
 }
 
@@ -80,8 +83,7 @@ export function readToken(request) {
 }
 
 export function isSignedIn(request) {
-  const { secret, ready } = config();
-  return ready && tokenIsValid(readToken(request), secret);
+  return config().ready && tokenIsValid(readToken(request));
 }
 
 export function json(body, status = 200, headers = {}) {

@@ -430,7 +430,7 @@
   (async () => {
     const { ok, body } = await api("/api/session");
     if (ok && body.configured === false) {
-      openLogin("The admin panel is not set up yet. ADMIN_PASSWORD and SESSION_SECRET are missing.");
+      openLogin("The admin panel is not set up yet. ADMIN_PASSWORD is missing.");
       return;
     }
     if (ok && body.authenticated) {

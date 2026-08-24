@@ -3,9 +3,9 @@ import { config as authConfig, passwordMatches, issueToken, sessionCookie, json 
 export default async (request) => {
   if (request.method !== "POST") return json({ error: "Method not allowed." }, 405);
 
-  const { password, secret, ready } = authConfig();
+  const { password, ready } = authConfig();
   if (!ready) {
-    return json({ error: "The admin panel is not set up yet. Ask Jarrett to add ADMIN_PASSWORD and SESSION_SECRET." }, 503);
+    return json({ error: "The admin panel is not set up yet. Ask Jarrett to add ADMIN_PASSWORD." }, 503);
   }
 
   let body;
@@ -23,7 +23,7 @@ export default async (request) => {
     return json({ error: "That password is not right." }, 401);
   }
 
-  return json({ ok: true }, 200, { "set-cookie": sessionCookie(issueToken(secret), request) });
+  return json({ ok: true }, 200, { "set-cookie": sessionCookie(issueToken(), request) });
 };
 
 export const config = { path: "/api/login" };

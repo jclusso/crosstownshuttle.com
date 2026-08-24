@@ -48,7 +48,7 @@
     Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
-  for = "/admin/*"
+  for = "/band-admin/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
     Cache-Control = "no-store"

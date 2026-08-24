@@ -1,42 +1,10 @@
 # crosstownshuttle.com
 
-One page site for Crosstown Shuttle, plus a small password-protected panel at
-`/admin` where the band adds and removes show dates themselves.
+One page site for Crosstown Shuttle, plus a password protected panel at
+`/band-admin` where the band adds and removes show dates.
 
 Jekyll builds the page. Tailwind CSS v4 builds the styles. Netlify Functions and
 Netlify Blobs hold the show list. Netlify Forms takes the booking inquiries.
-
-## How the show list works
-
-`/api/shows` is the only source of truth. The build never reads the show list,
-so nothing goes stale in the HTML. Two readers serve two audiences.
-
-1. People. In the browser, `assets/js/site.js` calls `/api/shows` and renders
-   the list. A save from `/admin` appears at once, with no deploy.
-2. Crawlers. `netlify/edge-functions/schema.js` runs on `/`, calls the same
-   endpoint, and writes the `event` array into the JSON-LD that
-   `_includes/schema.html` renders. Crawlers do not run the browser script, so
-   this is the only machine-readable copy of the dates.
-
-The edge function caches its response for a day, so a show that has gone by
-leaves the structured data within 24 hours on its own. A save also pings
-`BUILD_HOOK_URL`, and the resulting deploy clears the cached page, so a new date
-reaches the JSON-LD right away rather than waiting out the day.
-
-The edge function only ever rewrites JSON. It emits no markup, so there is no
-second copy of the show markup to keep in step.
-
-While that request is in flight the section shows a skeleton shaped like the
-real list. This matters: the alternative is telling every visitor the band has
-nothing booked for as long as the round trip takes. The "No dates on the board"
-message only appears once the function has answered with an empty list, and a
-failed request says so instead of claiming the list is empty. Without
-JavaScript, a `noscript` block replaces the skeleton with a short message and a
-link to the booking form.
-
-All date and time formatting lives in `netlify/shared/showtime.mjs`. The
-function imports it, and the edge function reads the formatted fields straight
-off `/api/shows`, so there is one implementation.
 
 ## Setup
 
@@ -45,34 +13,74 @@ Needs Ruby 4.0.6 and Node 20 or newer.
 ```sh
 bundle install
 npm install
-cp .env.example .env      # then fill in ADMIN_PASSWORD and SESSION_SECRET
+cp .env.example .env      # then set ADMIN_PASSWORD
 ```
-
-Generate the session secret with `openssl rand -base64 48`.
 
 ## Running it
 
 ```sh
-npm run serve   # netlify dev on :8888, with the functions and /admin working
+npm run serve   # netlify dev on :8888, with the functions and /band-admin working
 npm run dev     # jekyll plus tailwind only, on :4000, no functions
 npm run build   # what Netlify runs
 ```
 
-Use `npm run serve` when you need `/admin` or `/api/shows`. Netlify Blobs runs
-in a local sandbox, separate from the real site's data.
+Use `npm run serve` when you need `/band-admin` or `/api/shows`. Netlify Blobs
+runs in a local sandbox, separate from the real site's data.
 
-## Netlify environment variables
+## Environment variables
 
-Set these under Site configuration, Environment variables.
+`ADMIN_PASSWORD` is the only one. It is the password for `/band-admin`. Make it
+long. Set it on Netlify under Site configuration, Environment variables.
 
-| Name | Required | What it does |
-| --- | --- | --- |
-| `ADMIN_PASSWORD` | yes | The password for `/admin`. Make it long. |
-| `SESSION_SECRET` | yes | Signs the admin session cookie. Any long random string. |
-| `BAND_TIMEZONE` | no | Defaults to `America/New_York`. Decides which shows count as past. |
-| `BUILD_HOOK_URL` | no | Pinged after a save. The deploy clears the cached page so the JSON-LD catches up at once. |
+The session cookie is signed with a key derived from the password, so changing
+the password signs everyone out.
 
-Changing `SESSION_SECRET` signs everyone out.
+## How the show list works
+
+`/api/shows` is the only source of truth. The build never reads the show list,
+so nothing goes stale in the HTML. Two readers serve two audiences.
+
+1. People. In the browser, `assets/js/site.js` calls `/api/shows` and renders
+   the list. A save from `/band-admin` appears at once, with no deploy.
+2. Crawlers. `netlify/edge-functions/schema.js` runs on `/`, calls the same
+   endpoint, and writes the `event` array into the JSON-LD that
+   `_includes/schema.html` renders. Crawlers do not run the browser script, so
+   this is the only machine readable copy of the dates.
+
+The edge function caches its response for a day, so the structured data catches
+up with a change within 24 hours. It only ever rewrites JSON, so there is no
+second copy of the show markup to keep in step.
+
+While the browser request is in flight the section shows a skeleton shaped like
+the real list. The "No dates on the board" message only appears once the
+function has answered with an empty list, and a failed request says so instead
+of claiming the list is empty. Without JavaScript, a `noscript` block shows a
+short message and a link to the booking form.
+
+All date and time formatting lives in `netlify/shared/showtime.mjs`. The
+function imports it, and the edge function reads the formatted fields straight
+off `/api/shows`, so there is one implementation. Times are always
+America/New_York.
+
+## Using the admin panel
+
+Go to `/band-admin`, enter the password, and the show list opens. Each show is
+one collapsed row that gives the date, the venue, the town and the time. Press
+Edit on a row to open its fields, then press Save. Each show saves on its own.
+Only the date and the venue are required.
+
+The list gives the upcoming shows first. Press Past for the shows that have
+already happened, or All for both. A past show keeps a "Past" mark, stays in the
+list until someone removes it, and never shows on the public page.
+
+The sign in lasts 30 days on that device.
+
+One shared password, checked in constant time, is exchanged for an HMAC signed
+cookie that is `HttpOnly` and `SameSite=Lax`. The password itself is never
+stored in the browser. Failed sign ins are delayed to slow a script down, but
+there is no lockout, so the password needs to be long. Everything sent to
+`/api/shows` is re-validated on the server: dates must be real, only `http` and
+`https` links survive, text is length capped, and unknown fields are dropped.
 
 ## Content the band owns
 
@@ -88,41 +96,26 @@ Everything except the show dates lives in two data files.
   disappears when the list is empty. `featured: true` makes a tile span two
   columns.
 
-## Artwork still to replace
+## Images
 
-The caricatures are in place. The gallery is still placeholders, which are
-obvious on purpose.
-
-| File | Replace with | Size |
-| --- | --- | --- |
-| `assets/images/photos/placeholder-*.svg` | Real photos | Landscape, 4:3, about 1600px wide |
-
-Point `_data/photos.yml` at whatever filenames you use and delete the
-placeholders.
-
-`assets/images/charlie.png` and `beverly.png` are web copies, not the art
-itself. The full size originals stay in `src/images` as `charlie-orig.png` and
-`beverly-orig.png`. The build leaves `src` out of the site, so the heavy files
-never ship. Rebuild a web copy from its original with:
+`assets/images/charlie.png` and `beverly.png` are web copies. The full size
+originals stay in `src/images` as `charlie-orig.png` and `beverly-orig.png`,
+which the build leaves out of the site. Rebuild a web copy with:
 
 ```sh
 magick src/images/charlie-orig.png -strip -resize 800x800 -colors 256 \
   -define png:compression-level=9 assets/images/charlie.png
 ```
 
-The hero renders them at 320px at the widest, so 800px leaves more than the 2x
-a retina screen needs. A 256 colour palette takes the pair from 2.4MB to 293KB
-with no difference you can see, even at twice the rendered size. These drawings
-quantise well because they are grey pencil work over one flat red field. Going
-below 256 saves almost nothing and doubles the error, so there is no reason to.
-Check a face crop at 2x after changing the numbers.
+The hero renders them at 320px at the widest, so 800px covers a retina screen.
+A 256 colour palette takes the pair from 2.4MB to 293KB with no difference you
+can see.
 
-Both caricatures must keep a genuinely transparent background, because they sit
-straight on the black hero with no frame. Watch out for art exported as a
-screenshot: that bakes the editor's grey chequerboard in as real pixels, and it
-shows up as a pale square on the page. Strip it with a flood fill from the
-corners rather than a plain "remove white", which would punch holes in the light
-areas of the drawing:
+Both caricatures must keep a transparent background, because they sit straight
+on the black hero with no frame. Art exported as a screenshot bakes the editor's
+grey chequerboard in as real pixels. Strip it with a flood fill from the corners
+rather than a plain "remove white", which would punch holes in the light areas
+of the drawing:
 
 ```sh
 magick in.png -alpha set -fuzz 10% \
@@ -132,8 +125,8 @@ magick in.png -alpha set -fuzz 10% \
 ```
 
 `assets/images/meta.png` is the social sharing card. It has the `kicker` and
-`tagline` from `_data/band.yml` baked into it, so regenerate it whenever either
-of those changes:
+`tagline` from `_data/band.yml` baked into it, so rebuild it whenever either of
+those changes:
 
 ```sh
 node scripts/og-card.mjs
@@ -141,19 +134,6 @@ rsvg-convert -w 1200 -h 630 src/og.svg -o assets/images/meta.png
 ```
 
 `rsvg-convert` comes from `brew install librsvg`.
-
-## Using the admin panel
-
-Go to `/admin`, enter the password, and the show list opens. Each show is one
-collapsed row that gives the date, the venue, the town and the time. Press Edit
-on a row to open its fields, then press Save. Each show saves on its own. Only
-the date and the venue are required.
-
-The list gives the upcoming shows first. Press Past for the shows that have
-already happened, or All for both. A past show keeps a "Past" mark, stays in the
-list until someone removes it, and never shows on the public page.
-
-The sign in lasts 30 days on that device.
 
 ## Booking form
 
@@ -164,29 +144,20 @@ form posts through JavaScript and falls back to `/thanks/` without it.
 ## Layout of the repository
 
 ```
-_config.yml              Jekyll configuration
-_data/band.yml           All the copy except show dates
-_data/photos.yml         Gallery list
-_includes/               Page sections
-_includes/nav.html       Section bar, sits under the hero and pins on scroll
-_layouts/default.html    The public page
-_layouts/panel.html      The admin page
-src/site.css             Tailwind entry point and the design tokens
-src/images/              Full size art originals, not published
-assets/js/site.js        Menu, show list, lightbox, booking form
-assets/js/admin.js       The admin panel
-netlify/functions/       login, logout, session, shows
-netlify/edge-functions/  Puts the current shows into the homepage JSON-LD
-netlify/shared/          Auth, validation, formatting, Blobs access
-scripts/og-card.mjs      Rebuilds the social card source
-seed/shows.sample.json   Reference dates, not read by the build
+_config.yml                Jekyll configuration
+_data/band.yml             All the copy except show dates
+_data/photos.yml           Gallery list
+_includes/                 Page sections
+_layouts/default.html      The public page
+_layouts/panel.html        The admin page
+band-admin.html            The admin page content
+src/site.css               Tailwind entry point and the design tokens
+src/images/                Full size art originals, not published
+assets/js/site.js          Menu, show list, lightbox, booking form
+assets/js/band-admin.js    The admin panel
+netlify/functions/         login, logout, session, shows
+netlify/edge-functions/    Puts the current shows into the homepage JSON-LD
+netlify/shared/            Auth, validation, formatting, Blobs access
+scripts/og-card.mjs        Rebuilds the social card source
+seed/shows.sample.json     Reference dates, not read by the build
 ```
-
-## Notes on the admin panel's security
-
-One shared password, checked in constant time, exchanged for an HMAC signed
-cookie that is `HttpOnly` and `SameSite=Lax`. The password itself is never
-stored in the browser. Failed sign ins are delayed to slow a script down, but
-there is no lockout, so the password needs to be long. Everything sent to
-`/api/shows` is re-validated on the server: dates must be real, only `http` and
-`https` links survive, text is length capped, and unknown fields are dropped.

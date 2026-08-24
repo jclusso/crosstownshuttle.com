@@ -1,25 +1,11 @@
 import { isSignedIn, json } from "../shared/auth.mjs";
 import { readShows, writeShows } from "../shared/store.mjs";
 import { sanitizeShows } from "../shared/validate.mjs";
-import { DEFAULT_TZ, byDate, decorate, upcoming } from "../shared/showtime.mjs";
-
-const timezone = process.env.BAND_TIMEZONE || DEFAULT_TZ;
-
-async function pokeBuild() {
-  const hook = process.env.BUILD_HOOK_URL;
-  if (!hook) return;
-  try {
-    // A deploy clears the cached homepage, so the JSON-LD picks up the change
-    // right away instead of waiting for the day-long cache to run out.
-    await fetch(hook, { method: "POST", body: "{}" });
-  } catch {
-    // A failed rebuild must not fail the save.
-  }
-}
+import { byDate, decorate, upcoming } from "../shared/showtime.mjs";
 
 function present(rows, scope) {
-  const selected = scope === "all" ? [...rows].sort(byDate) : upcoming(rows, timezone);
-  return selected.map((row) => decorate(row, timezone));
+  const selected = scope === "all" ? [...rows].sort(byDate) : upcoming(rows);
+  return selected.map((row) => decorate(row));
 }
 
 export default async (request) => {
@@ -56,7 +42,6 @@ export default async (request) => {
       return json({ error: "Could not save the show list.", detail: String(error?.message || error) }, 502);
     }
 
-    await pokeBuild();
     return json({ ok: true, shows: present(shows, scope) });
   }
 
