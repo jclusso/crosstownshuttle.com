@@ -8,31 +8,35 @@ Netlify Blobs hold the show list. Netlify Forms takes the booking inquiries.
 
 ## How the show list works
 
-There are two paths to the same data, so the page is correct with or without
-JavaScript and never waits on a rebuild.
+`/api/shows` is the only source of truth. The build never reads the show list,
+so nothing goes stale in the HTML. Two readers serve two audiences.
 
-1. `scripts/pull-shows.mjs` runs before every build. It reads the saved shows
-   out of Netlify Blobs and writes `_data/shows.json`, which Jekyll renders into
-   the HTML. This is what search engines and the JSON-LD see.
-2. In the browser, `assets/js/site.js` calls `/api/shows` and replaces the list.
-   A save from `/admin` therefore appears immediately, with no deploy.
+1. People. In the browser, `assets/js/site.js` calls `/api/shows` and renders
+   the list. A save from `/admin` appears at once, with no deploy.
+2. Crawlers. `netlify/edge-functions/schema.js` runs on `/`, calls the same
+   endpoint, and writes the `event` array into the JSON-LD that
+   `_includes/schema.html` renders. Crawlers do not run the browser script, so
+   this is the only machine-readable copy of the dates.
 
-`/api/shows` is the source of truth. `_data/shows.json` is generated and ignored
-by git.
+The edge function caches its response for a day, so a show that has gone by
+leaves the structured data within 24 hours on its own. A save also pings
+`BUILD_HOOK_URL`, and the resulting deploy clears the cached page, so a new date
+reaches the JSON-LD right away rather than waiting out the day.
+
+The edge function only ever rewrites JSON. It emits no markup, so there is no
+second copy of the show markup to keep in step.
 
 While that request is in flight the section shows a skeleton shaped like the
-real list. This matters: when the build has no dates in it, the alternative is
-telling every visitor the band has nothing booked for as long as the round trip
-takes. The "No dates on the board" message only appears once the function has
-actually answered with an empty list. Without JavaScript, a `noscript` block
-replaces the skeleton with a short message and a link to the booking form.
+real list. This matters: the alternative is telling every visitor the band has
+nothing booked for as long as the round trip takes. The "No dates on the board"
+message only appears once the function has answered with an empty list, and a
+failed request says so instead of claiming the list is empty. Without
+JavaScript, a `noscript` block replaces the skeleton with a short message and a
+link to the booking form.
 
-Reading Blobs from a build needs `SITE_ID` and `NETLIFY_API_TOKEN`. Without
-them the build still succeeds, the HTML ships with an empty list, and the
-browser fills it in. Set them if you want the dates inside the HTML too.
-
-All date and time formatting lives in `netlify/shared/showtime.mjs`, which the
-build script and the function both import, so there is one implementation.
+All date and time formatting lives in `netlify/shared/showtime.mjs`. The
+function imports it, and the edge function reads the formatted fields straight
+off `/api/shows`, so there is one implementation.
 
 ## Setup
 
@@ -66,9 +70,7 @@ Set these under Site configuration, Environment variables.
 | `ADMIN_PASSWORD` | yes | The password for `/admin`. Make it long. |
 | `SESSION_SECRET` | yes | Signs the admin session cookie. Any long random string. |
 | `BAND_TIMEZONE` | no | Defaults to `America/New_York`. Decides which shows count as past. |
-| `SITE_ID` | no | Lets the build read Blobs, so dates land in the HTML. |
-| `NETLIFY_API_TOKEN` | no | Goes with `SITE_ID`. A personal access token. |
-| `BUILD_HOOK_URL` | no | Pinged after a save so the static HTML catches up. |
+| `BUILD_HOOK_URL` | no | Pinged after a save. The deploy clears the cached page so the JSON-LD catches up at once. |
 
 Changing `SESSION_SECRET` signs everyone out.
 
@@ -151,7 +153,6 @@ form posts through JavaScript and falls back to `/thanks/` without it.
 _config.yml              Jekyll configuration
 _data/band.yml           All the copy except show dates
 _data/photos.yml         Gallery list
-_data/shows.json         Generated before each build, git ignored
 _includes/               Page sections
 _includes/nav.html       Section bar, sits under the hero and pins on scroll
 _layouts/default.html    The public page
@@ -160,10 +161,10 @@ src/site.css             Tailwind entry point and the design tokens
 assets/js/site.js        Menu, show list, lightbox, booking form
 assets/js/admin.js       The admin panel
 netlify/functions/       login, logout, session, shows
+netlify/edge-functions/  Puts the current shows into the homepage JSON-LD
 netlify/shared/          Auth, validation, formatting, Blobs access
-scripts/pull-shows.mjs   Reads Blobs at build time
 scripts/og-card.mjs      Rebuilds the social card source
-seed/shows.sample.json   Sample dates for local work only
+seed/shows.sample.json   Reference dates, not read by the build
 ```
 
 ## Notes on the admin panel's security

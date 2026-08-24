@@ -1,5 +1,4 @@
 {%- assign band = site.data.band -%}
-{%- assign shows = site.data.shows -%}
 {%- capture social_urls -%}
 {%- if band.social.facebook != "" %}{{ band.social.facebook }},{% endif -%}
 {%- if band.social.instagram != "" %}{{ band.social.instagram }},{% endif -%}
@@ -26,30 +25,6 @@
     {%- for member in band.members %}
     { "@type": "Person", "name": {{ member.name | jsonify }}, "jobTitle": {{ member.role | jsonify }} }{% unless forloop.last %},{% endunless %}
     {%- endfor %}
-  ]{% if shows and shows.size > 0 %},
-  "event": [
-    {%- for show in shows %}
-    {
-      "@type": "MusicEvent",
-      "name": {{ band.name | append: ' at ' | append: show.venue | jsonify }},
-      "startDate": {{ show.starts_at | jsonify }},
-      {%- if show.ends_at != "" %}
-      "endDate": {{ show.ends_at | jsonify }},
-      {%- endif %}
-      "eventStatus": "https://schema.org/EventScheduled",
-      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-      "performer": { "@id": {{ site.url | append: '/#band' | jsonify }} },
-      "location": {
-        "@type": "Place",
-        "name": {{ show.venue | jsonify }}
-        {%- if show.address != "" %},
-        "address": {{ show.address | jsonify }}
-        {%- elsif show.city != "" %},
-        "address": {{ show.city | jsonify }}
-        {%- endif %}
-      }
-    }{% unless forloop.last %},{% endunless %}
-    {%- endfor %}
-  ]{% endif %}
+  ]
 }
 </script>

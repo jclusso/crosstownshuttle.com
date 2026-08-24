@@ -8,13 +8,6 @@
 
   const showsRoot = $("[data-shows-root]");
 
-  const localToday = () => {
-    const now = new Date();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const day = String(now.getDate()).padStart(2, "0");
-    return `${now.getFullYear()}-${month}-${day}`;
-  };
-
   const escapeHtml = (value) =>
     String(value ?? "").replace(/[&<>"']/g, (c) =>
       ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -73,20 +66,7 @@
       list.classList.toggle("relative", state === "list");
       loading?.classList.toggle("hidden", state !== "loading");
       empty.classList.toggle("hidden", state !== "empty");
-    };
-
-    const built = () => $$("[data-show-date]", list).length;
-
-    // The built HTML can be older than today, so drop anything already past.
-    const pruneStale = () => {
-      const today = localToday();
-      $$("[data-show-date]", list).forEach((item) => {
-        if (item.dataset.showDate < today) item.remove();
-      });
-      $$("[data-show-date]", list).forEach((item, index) => {
-        const badge = $(".plate-brand", item);
-        if (index !== 0 && badge) badge.remove();
-      });
+      error?.classList.toggle("hidden", state !== "error");
     };
 
     const render = (shows) => {
@@ -97,21 +77,17 @@
       setState(shows.length ? "list" : "empty");
     };
 
-    pruneStale();
     // Never claim there are no dates before the function has answered.
-    setState(built() > 0 ? "list" : "loading");
+    setState("loading");
 
     fetch("/api/shows", { headers: { accept: "application/json" } })
       .then((response) => (response.ok ? response.json() : Promise.reject(new Error(String(response.status)))))
       .then((data) => {
         // null means nobody has saved from the admin panel yet.
         if (Array.isArray(data.shows)) render(data.shows);
-        else setState(built() > 0 ? "list" : "empty");
+        else setState("empty");
       })
-      .catch(() => {
-        setState(built() > 0 ? "list" : "empty");
-        if (built() > 0) error?.classList.remove("hidden");
-      });
+      .catch(() => setState("error"));
   }
 
   /* Photo lightbox -------------------------------------------------------- */

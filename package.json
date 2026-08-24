@@ -7,10 +7,9 @@
     "node": ">=20"
   },
   "scripts": {
-    "shows:pull": "node scripts/pull-shows.mjs",
     "css": "tailwindcss --input src/site.css --output assets/css/site.css",
     "css:min": "npm run css -- --minify",
-    "build": "npm run shows:pull && npm run css:min && bundle exec jekyll build",
+    "build": "npm run css:min && bundle exec jekyll build",
     "dev": "bin/dev",
     "serve": "netlify dev"
   },

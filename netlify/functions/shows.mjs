@@ -9,7 +9,8 @@ async function pokeBuild() {
   const hook = process.env.BUILD_HOOK_URL;
   if (!hook) return;
   try {
-    // Refreshes the static HTML. The live page already has the new data.
+    // A deploy clears the cached homepage, so the JSON-LD picks up the change
+    // right away instead of waiting for the day-long cache to run out.
     await fetch(hook, { method: "POST", body: "{}" });
   } catch {
     // A failed rebuild must not fail the save.
