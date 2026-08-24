@@ -1,9 +1,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{%- assign page_title = page.title | default: site.title -%}
+{%- capture site_title_full -%}{{ site.title }} · {{ site.tagline }}{%- endcapture -%}
+{%- assign page_title = page.title | default: site_title_full -%}
 {%- assign page_desc = page.description | default: site.description | strip_newlines | strip -%}
-<title>{% if page.title %}{{ page.title }} &middot; {{ site.title }}{% else %}{{ site.title }} &middot; {{ site.tagline }}{% endif %}</title>
+{%- assign meta_image_alt = "Crosstown Shuttle logo above ink drawings of Charlie with a guitar and Beverly at a keyboard." -%}
+<title>{% if page.title %}{{ page.title }} · {{ site.title }}{% else %}{{ site_title_full }}{% endif %}</title>
 <meta name="description" content="{{ page_desc | escape }}">
 {%- if page.noindex %}
 <meta name="robots" content="noindex, nofollow">
@@ -13,13 +15,17 @@
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:locale" content="{{ site.locale }}">
 <meta property="og:title" content="{{ page_title | escape }}">
 <meta property="og:description" content="{{ page_desc | escape }}">
 <meta property="og:url" content="{{ page.url | absolute_url }}">
 <meta property="og:image" content="{{ '/assets/images/meta.png' | absolute_url }}">
+<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ meta_image_alt | escape }}">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="{{ meta_image_alt | escape }}">
 
 <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
@@ -27,6 +33,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
 <link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#ee352e">
 <link rel="manifest" href="/assets/favicon/site.webmanifest">
+<meta name="msapplication-config" content="/assets/favicon/browserconfig.xml">
 <meta name="msapplication-TileColor" content="#0a0a0a">
 <meta name="theme-color" content="#0a0a0a">
 

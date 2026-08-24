@@ -6,6 +6,7 @@ description: >-
 url: https://crosstownshuttle.com
 baseurl: ""
 lang: en
+locale: en_US
 timezone: America/New_York
 
 plugins:
