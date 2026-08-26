@@ -2,26 +2,15 @@
 
 name: Crosstown Shuttle
 
-# The small red line above the logo in the hero.
-kicker: Live music duo
-
-# Shown next to the kicker. Blank hides it.
-region: ""
-
-# The one big line under the logo. Keep it short.
-tagline: Two of us, and the sound of a whole band.
+# The big picture in the header. Blank shows the two member pictures
+# side by side instead.
+hero_image: /assets/images/charlie-and-beverly.png
 
 blurb: >-
-  We are The Crosstown Shuttle, a duo with the sound of a bigger band. Charlie
-  plays guitar, Beverly plays keyboard, and we both sing lead and harmony,
-  swapping the lead from song to song. We play all kinds of music and are
-  always glad to find a new place to play.
-
-# The pills under the tagline. Keep each one to a few words.
-highlights:
-  - Lead & harmony vocals
-  - All kinds of music
-  - Booking new places
+  We are The Crosstown Shuttle, a duo with the full sound of a bigger band.
+  Charlie plays guitar, Beverly plays keyboards, and we both sing lead and
+  harmony, trading the lead from song to song. We love playing a wide variety
+  of music and bringing it to new audiences.
 
 # Used for the structured data search engines read. Add the genres they
 # actually play, most common first. Leave the list empty to omit it.

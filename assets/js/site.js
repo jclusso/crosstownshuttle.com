@@ -123,6 +123,12 @@
   if (form) {
     const status = $("[data-booking-status]", form);
     const submit = $("[data-booking-submit]", form);
+    const date = $("[type=date]", form);
+
+    const markDate = () => date?.toggleAttribute("data-filled", Boolean(date.value));
+
+    date?.addEventListener("input", markDate);
+    markDate();
 
     const announce = (message, tone) => {
       status.textContent = message;
@@ -148,6 +154,7 @@
         if (!response.ok) throw new Error(String(response.status));
 
         form.reset();
+        markDate();
         announce("Thanks. Your message is on its way and we will be in touch soon.", "info");
         submit.textContent = "Sent";
       } catch {

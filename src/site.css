@@ -102,6 +102,27 @@
            placeholder:text-muted/50 focus:border-brand focus:outline-none;
   }
 
+  /* The native date control paints a dark icon and full-strength text, which
+     both fight a dark field. Match the placeholder treatment of the others. */
+  .field[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
+  .field[type="date"]:hover::-webkit-calendar-picker-indicator,
+  .field[type="date"]:focus::-webkit-calendar-picker-indicator {
+    opacity: 0.9;
+  }
+
+  .field[type="date"]::-webkit-datetime-edit {
+    color: color-mix(in oklab, var(--color-muted) 50%, transparent);
+  }
+
+  .field[type="date"][data-filled]::-webkit-datetime-edit {
+    color: var(--color-chalk);
+  }
+
   .card {
     @apply border-2 border-line bg-ink-800;
   }
@@ -116,9 +137,22 @@
   );
 }
 
-@utility grid-lines {
+@utility stage-wash {
+  background-color: #0a0a0a;
   background-image:
-    linear-gradient(to right, color-mix(in oklab, white 4%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, white 4%, transparent) 1px, transparent 1px);
-  background-size: 72px 72px;
+    radial-gradient(80% 55% at 50% 4%, rgba(255, 240, 220, 0.07), transparent 65%),
+    radial-gradient(60% 45% at 50% 28%, rgba(238, 53, 46, 0.09), transparent 70%),
+    radial-gradient(120% 90% at 50% 60%, transparent 45%, rgba(0, 0, 0, 0.85));
+}
+
+@utility hero-art {
+  /* Poster art with no clean bottom edge: fade the sides and the top seam into
+     the page. The bottom is cut by the section rule, not faded. */
+  --hero-art-fade:
+    linear-gradient(to bottom, transparent 0, #000 2%, #000 100%),
+    linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+  -webkit-mask-image: var(--hero-art-fade);
+  -webkit-mask-composite: source-in;
+  mask-image: var(--hero-art-fade);
+  mask-composite: intersect;
 }
