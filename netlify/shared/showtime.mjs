@@ -4,7 +4,6 @@ export const LIMITS = {
   shows: 200,
   venue: 120,
   city: 120,
-  address: 200,
   notes: 280,
   url: 300,
 };
@@ -67,10 +66,8 @@ function utcOffset(at, tz) {
 }
 
 function mapUrl(show) {
-  const query = [show.address, show.address ? "" : show.venue, show.address ? "" : show.city]
-    .filter(Boolean)
-    .join(" ")
-    .trim();
+  if (show.map_url) return show.map_url;
+  const query = [show.venue, show.city].filter(Boolean).join(" ").trim();
   if (!query) return "";
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
@@ -91,7 +88,7 @@ export function decorate(show, tz = DEFAULT_TZ) {
     time_display: timeDisplay(show.start_time, show.end_time),
     starts_at: show.start_time ? `${show.date}T${show.start_time}:00${offset}` : show.date,
     ends_at: show.end_time ? `${show.date}T${show.end_time}:00${offset}` : "",
-    map_url: mapUrl(show),
+    directions_url: mapUrl(show),
   };
 }
 

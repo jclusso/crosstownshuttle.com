@@ -25,8 +25,8 @@ function toEvent(show, performerId, bandName) {
   event.performer = { "@id": performerId };
   event.location = { "@type": "Place", name: show.venue };
 
-  const address = show.address || show.city;
-  if (address) event.location.address = address;
+  if (show.city) event.location.address = show.city;
+  if (show.map_url) event.location.hasMap = show.map_url;
 
   return event;
 }

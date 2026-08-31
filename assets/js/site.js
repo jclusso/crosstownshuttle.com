@@ -20,7 +20,7 @@
          class="font-display text-[0.7rem] font-bold uppercase tracking-[0.14em] text-brand underline decoration-brand/40 underline-offset-4 hover:decoration-brand">${label}</a>`;
 
     const links = [
-      show.map_url ? link(show.map_url, "Directions") : "",
+      show.directions_url ? link(show.directions_url, "Directions") : "",
       show.url ? link(show.url, "Venue page") : "",
     ].filter(Boolean).join("");
 
@@ -121,6 +121,7 @@
   const form = $("[data-booking-form]");
 
   if (form) {
+    const success = $("[data-booking-success]");
     const status = $("[data-booking-status]", form);
     const submit = $("[data-booking-submit]", form);
     const date = $("[type=date]", form);
@@ -153,10 +154,9 @@
         });
         if (!response.ok) throw new Error(String(response.status));
 
-        form.reset();
-        markDate();
-        announce("Thanks. Your message is on its way and we will be in touch soon.", "info");
-        submit.textContent = "Sent";
+        form.hidden = true;
+        success.hidden = false;
+        success.scrollIntoView({ block: "center", behavior: "smooth" });
       } catch {
         submit.disabled = false;
         submit.textContent = original;

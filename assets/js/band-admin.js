@@ -21,7 +21,7 @@
   const addButton = $("[data-add-show]");
   const filterButtons = $$("[data-filter]");
 
-  const FIELDS = ["id", "date", "start_time", "end_time", "venue", "city", "address", "url", "notes"];
+  const FIELDS = ["id", "date", "start_time", "end_time", "venue", "city", "map_url", "url", "notes"];
   const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
   const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
 

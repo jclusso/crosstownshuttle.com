@@ -6,7 +6,7 @@
     "end_time": "13:30",
     "venue": "Bingham Park Gazebo",
     "city": "Hawley, PA",
-    "address": "",
+    "map_url": "",
     "url": "",
     "notes": "The Hawley Hoe Down"
   },
@@ -17,7 +17,7 @@
     "end_time": "21:00",
     "venue": "The Hasbrouck Tavern",
     "city": "",
-    "address": "",
+    "map_url": "",
     "url": "",
     "notes": "Wing Night"
   },
@@ -28,7 +28,7 @@
     "end_time": "",
     "venue": "The Hideout Clubhouse",
     "city": "",
-    "address": "",
+    "map_url": "",
     "url": "",
     "notes": ""
   }

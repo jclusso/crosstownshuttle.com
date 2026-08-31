@@ -72,7 +72,7 @@ export function sanitizeShows(input) {
       end_time: end,
       venue,
       city: text(row.city, LIMITS.city),
-      address: text(row.address, LIMITS.address),
+      map_url: link(row.map_url),
       url: link(row.url),
       notes: text(row.notes, LIMITS.notes),
     });
