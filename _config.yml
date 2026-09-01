@@ -1,0 +1,35 @@
+title: Crosstown Shuttle
+tagline: Live Music Duo
+description: >-
+  We are The Crosstown Shuttle, a live music duo with a bigger-band sound. We both
+  sing lead and harmony and play a wide range of music. Now booking.
+url: https://crosstownshuttle.com
+baseurl: ""
+lang: en
+locale: en_US
+timezone: America/New_York
+
+plugins:
+  - jekyll-sitemap
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - bin
+  - deno.lock
+  - netlify
+  - netlify.toml
+  - node_modules
+  - package-lock.json
+  - package.json
+  - scripts
+  - seed
+  - src
+  - vendor
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default

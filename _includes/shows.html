@@ -1,0 +1,62 @@
+<section id="shows" class="border-b-2 border-line py-16 sm:py-24">
+  <div class="mx-auto max-w-5xl px-4 sm:px-6">
+    {% include section-heading.html eyebrow="Service board" title="Where we are playing" %}
+
+    <div data-shows-root class="mt-10">
+      <div data-shows-list class="hidden"></div>
+
+      {%- comment -%}
+        Held until /api/shows answers. Without this the page would claim there
+        are no dates while the real list is still on the wire.
+      {%- endcomment -%}
+      <div data-shows-loading class="relative" aria-hidden="true">
+        <span class="absolute left-[0.65rem] top-4 bottom-4 w-0.5 bg-line"></span>
+        <ol class="relative space-y-4">
+          {%- for i in (1..3) %}
+          <li class="relative pl-9 sm:pl-12">
+            <span class="absolute left-0.5 top-7 size-5 animate-pulse rounded-full border-[3px] border-line-bright bg-ink"></span>
+            <div class="card animate-pulse">
+              <div class="flex gap-4 p-4 sm:gap-6 sm:p-6">
+                <div class="h-[5.5rem] w-[4.25rem] shrink-0 border-2 border-line bg-ink-700 sm:w-20"></div>
+                <div class="min-w-0 flex-1 space-y-3 py-1">
+                  <div class="h-5 w-2/5 bg-ink-600"></div>
+                  <div class="h-3.5 w-3/5 bg-ink-700"></div>
+                  <div class="h-3.5 w-1/4 bg-ink-700"></div>
+                </div>
+              </div>
+            </div>
+          </li>
+          {%- endfor %}
+        </ol>
+        <p class="sr-only">Loading the show list</p>
+      </div>
+
+      <div data-shows-empty class="card hidden px-6 py-12 text-center">
+        <p class="font-display text-lg font-extrabold uppercase tracking-[0.015em]">No dates on the board</p>
+        <p class="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted">
+          Nothing is booked right now. Check back soon, or get in touch if you would like us to play.
+        </p>
+        <a href="#book" class="btn btn-brand mt-7">Book us</a>
+      </div>
+
+      <div data-shows-error class="card hidden px-6 py-12 text-center">
+        <p class="font-display text-lg font-extrabold uppercase tracking-[0.015em]">The show list did not load</p>
+        <p class="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted">
+          Please reload the page. You can also get in touch and we will tell you where we are playing.
+        </p>
+        <a href="#book" class="btn btn-brand mt-7">Get in touch</a>
+      </div>
+
+      <noscript>
+        <style>[data-shows-loading] { display: none !important; }</style>
+        <div class="card px-6 py-12 text-center">
+          <p class="font-display text-lg font-extrabold uppercase tracking-[0.015em]">Turn on JavaScript to see the dates</p>
+          <p class="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted">
+            The show list needs it. You can also get in touch and we will tell you where we are playing.
+          </p>
+          <a href="#book" class="btn btn-brand mt-7">Get in touch</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</section>

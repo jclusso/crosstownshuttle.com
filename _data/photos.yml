@@ -1,0 +1,58 @@
+# Gallery photos, in the order they appear. The section hides itself if this
+# list is empty.
+#
+# Web copies live in assets/images/photos/. The full-size originals live in
+# assets/images/originals/photos/. To add a photo: put the original in the
+# originals folder, export a copy at 1600px on the long edge into
+# assets/images/photos/, and add an entry here with a real `alt` line.
+#
+# The grid is 2 across on phones and 4 across on wide screens, so keep the
+# count a multiple of 4 for even rows.
+
+- src: /assets/images/photos/duo-in-red.jpg
+  alt: Charlie and Beverly performing in matching red outfits behind the Crosstown Shuttle banner
+
+- src: /assets/images/photos/beverly-keys-red.jpg
+  alt: Beverly singing at the keyboard in a red hat and sequined top
+
+- src: /assets/images/photos/charlie-red-guitar.jpg
+  alt: Charlie playing his red hollow-body guitar
+
+- src: /assets/images/photos/duo-holiday-lights.jpg
+  alt: Charlie and Beverly playing a holiday show with string lights behind them
+
+- src: /assets/images/photos/duo-on-air.jpg
+  alt: Charlie and Beverly smiling together under the ON AIR sign at a radio spot
+
+- src: /assets/images/photos/charlie-window-light.jpg
+  alt: Charlie playing guitar by a sunlit window
+
+- src: /assets/images/photos/duo-outdoor-stage.jpg
+  alt: Charlie and Beverly on an outdoor stage with an American flag behind them
+
+- src: /assets/images/photos/beverly-pink-hat.jpg
+  alt: Beverly singing at the keyboard in a pink hat on an outdoor stage
+
+- src: /assets/images/photos/duo-riverside-park.jpg
+  alt: Charlie and Beverly playing under a canopy at a riverside park
+
+- src: /assets/images/photos/duo-studio.jpg
+  alt: Charlie and Beverly performing in a studio lit with pink light
+
+- src: /assets/images/photos/beverly-denim.jpg
+  alt: Beverly singing at the keyboard in a black sparkly hat and denim jacket
+
+- src: /assets/images/photos/duo-community-hall.jpg
+  alt: Charlie and Beverly playing a daytime show at a community hall
+
+- src: /assets/images/photos/duo-red-portrait.jpg
+  alt: Charlie and Beverly posing in red outfits before a show
+
+- src: /assets/images/photos/duo-park-canopy.jpg
+  alt: Charlie on acoustic guitar and Beverly at the keys at an outdoor park show
+
+- src: /assets/images/photos/beverly-at-venue.jpg
+  alt: Beverly smiling at the venue before a show
+
+- src: /assets/images/photos/duo-studio-close.jpg
+  alt: Charlie and Beverly close together at the keys and guitar in the studio

@@ -1,0 +1,30 @@
+{%- assign band = site.data.band -%}
+<section id="duo" class="border-b-2 border-line py-16 sm:py-24">
+  <div class="mx-auto max-w-5xl px-4 sm:px-6">
+    {% include section-heading.html eyebrow="On board" title="The duo" lede=band.blurb %}
+
+    {%- comment -%}
+      Small avatars, not a second showing of the hero art. At this size they
+      identify who is who instead of competing with the poster above.
+    {%- endcomment -%}
+    <div class="mt-12 grid gap-6 sm:grid-cols-2">
+      {%- for member in band.members %}
+      <article class="card flex flex-col overflow-hidden">
+        {%- if member.image and member.image != "" %}
+        <div class="flex flex-1 items-end justify-center px-6 pt-8">
+          <img src="{{ member.image }}" alt="Caricature of {{ member.name }}"
+               width="800" height="800" loading="lazy" class="h-52 w-auto lg:h-64">
+        </div>
+        {%- endif %}
+        <div class="border-t-2 border-line bg-ink-700 px-6 py-7 text-center sm:px-8 sm:py-8">
+          <h3 class="text-xl leading-tight sm:text-2xl">{{ member.name }}</h3>
+          <p class="mt-2 font-display text-[0.7rem] font-bold uppercase tracking-[0.16em] text-brand">{{ member.role | escape }}</p>
+          {%- if member.bio and member.bio != "" %}
+          <p class="mt-4 text-sm leading-relaxed text-muted">{{ member.bio }}</p>
+          {%- endif %}
+        </div>
+      </article>
+      {%- endfor %}
+    </div>
+  </div>
+</section>

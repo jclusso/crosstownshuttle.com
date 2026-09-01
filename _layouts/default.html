@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="{{ site.lang }}" class="bg-ink">
+<head>
+  {%- include head.html %}
+  {%- unless page.noindex %}{% include schema.html %}{% endunless %}
+</head>
+<body class="min-h-dvh">
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:border-2 focus:border-brand focus:bg-ink focus:px-4 focus:py-2 focus:font-display focus:text-sm focus:font-bold focus:uppercase">
+    Skip to content
+  </a>
+  <main id="main">
+    {{ content }}
+  </main>
+  {%- include footer.html %}
+  <script src="/assets/js/site.js?v={{ site.time | date: '%s' }}" defer></script>
+</body>
+</html>

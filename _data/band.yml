@@ -1,0 +1,49 @@
+# Everything on the public page that is not a show date comes from this file.
+
+name: Crosstown Shuttle
+
+# The big picture in the header. Blank shows the two member pictures
+# side by side instead.
+hero_image: /assets/images/charlie-and-beverly.png
+
+blurb: >-
+  The Crosstown Shuttle is a dynamic duo with a big-band sound. Charlie plays
+  guitar, Beverly plays keys, and we both sing lead and harmony, trading vocals
+  from song to song. We play a wide variety of music, putting our own spin on
+  favorites and bringing great songs to new audiences.
+
+# Used for the structured data search engines read. Add the genres they
+# actually play, most common first. Leave the list empty to omit it.
+genres: []
+
+members:
+  - name: Charlie Lusso
+    short_name: Charlie
+    role: Guitar & Vocals
+    # One true sentence about Charlie. Hidden while this is blank.
+    bio: ""
+    image: /assets/images/charlie.png
+
+  - name: Beverly Lusso
+    short_name: Beverly
+    role: Keyboards & Vocals
+    # One true sentence about Beverly. Hidden while this is blank.
+    bio: ""
+    image: /assets/images/beverly.png
+
+booking:
+  # Small red label above the heading. Keep it to a word or two.
+  eyebrow: Dispatch
+  heading: Book the Shuttle
+  intro: >-
+    We are always looking for a new place to play. Send us the date and a few
+    details, and we'll get back to you soon.
+  # Leave blank to hide. These are only shown as extra options under the form.
+  email: ""
+  phone: ""
+
+social:
+  # Fill in the real URLs. Any left blank is hidden.
+  facebook: "https://www.facebook.com/p/The-Crosstown-Shuttle-Duo-100090924530248/"
+  instagram: "https://www.instagram.com/crosstownshuttleduo/"
+  youtube: ""

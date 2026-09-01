@@ -1,0 +1,30 @@
+{%- assign band = site.data.band -%}
+{%- capture social_urls -%}
+{%- if band.social.facebook != "" %}{{ band.social.facebook }},{% endif -%}
+{%- if band.social.instagram != "" %}{{ band.social.instagram }},{% endif -%}
+{%- if band.social.youtube != "" %}{{ band.social.youtube }},{% endif -%}
+{%- endcapture -%}
+{%- assign same_as = social_urls | split: "," -%}
+<script type="application/ld+json" data-band-schema>
+{
+  "@context": "https://schema.org",
+  "@type": "MusicGroup",
+  "@id": {{ site.url | append: '/#band' | jsonify }},
+  "name": {{ band.name | jsonify }},
+  "url": {{ site.url | jsonify }},
+  "description": {{ site.description | strip_newlines | strip | jsonify }},
+  "logo": {{ '/assets/images/logo.svg' | absolute_url | jsonify }},
+  "image": {{ '/assets/images/meta.png' | absolute_url | jsonify }},
+  {%- if band.genres and band.genres.size > 0 %}
+  "genre": {{ band.genres | jsonify }},
+  {%- endif %}
+  {%- if same_as.size > 0 %}
+  "sameAs": {{ same_as | jsonify }},
+  {%- endif %}
+  "member": [
+    {%- for member in band.members %}
+    { "@type": "Person", "name": {{ member.name | jsonify }}, "jobTitle": {{ member.role | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ]
+}
+</script>

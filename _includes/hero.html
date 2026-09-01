@@ -1,0 +1,35 @@
+{%- assign band = site.data.band -%}
+<section id="top" class="relative isolate overflow-hidden border-b-2 border-line">
+  <div class="stage-wash absolute inset-0 -z-20" aria-hidden="true"></div>
+  <div class="absolute left-1/2 top-24 -z-10 h-[16rem] w-[30rem] max-w-none -translate-x-1/2 rounded-full bg-brand/10 blur-[90px]" aria-hidden="true"></div>
+
+  <div class="mx-auto max-w-5xl px-4 pt-14 sm:px-6 sm:pt-18 lg:pt-20">
+    <h1 class="flex justify-center">
+      <span class="relative inline-flex items-center justify-center border-2 border-line-bright bg-ink px-8 py-6 shadow-[0_0_70px_-5px_rgba(238,53,46,0.45),0_22px_45px_-15px_rgba(0,0,0,0.95)] sm:px-12 sm:py-8">
+        <span class="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.06] to-transparent" aria-hidden="true"></span>
+        <span class="absolute left-2.5 top-2.5 size-1.5 rounded-full bg-line-bright shadow-[0_1px_0_rgba(255,255,255,0.15)]" aria-hidden="true"></span>
+        <span class="absolute right-2.5 top-2.5 size-1.5 rounded-full bg-line-bright shadow-[0_1px_0_rgba(255,255,255,0.15)]" aria-hidden="true"></span>
+        <span class="absolute bottom-2.5 left-2.5 size-1.5 rounded-full bg-line-bright shadow-[0_1px_0_rgba(255,255,255,0.15)]" aria-hidden="true"></span>
+        <span class="absolute bottom-2.5 right-2.5 size-1.5 rounded-full bg-line-bright shadow-[0_1px_0_rgba(255,255,255,0.15)]" aria-hidden="true"></span>
+        <img src="/assets/images/logo.svg" alt="{{ band.name }}" width="3000" height="992"
+             class="h-16 w-auto sm:h-20 lg:h-24" fetchpriority="high">
+      </span>
+    </h1>
+    {%- if band.hero_image and band.hero_image != "" %}
+    <img src="{{ band.hero_image }}" alt="Caricature of {{ band.name }} playing"
+         width="1536" height="1024" fetchpriority="high"
+         class="hero-art -mx-4 mt-16 block w-[calc(100%+2rem)] max-w-none
+                sm:mx-auto sm:w-full sm:max-w-2xl">
+    {%- else %}
+    <div class="mt-10 mb-14 flex items-center justify-center gap-2 sm:mt-12 sm:mb-18 sm:gap-6 lg:mb-20">
+      {%- for member in band.members %}
+      {%- if member.image and member.image != "" %}
+      <img src="{{ member.image }}" alt="Caricature of {{ member.name }}"
+           width="800" height="800" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+           class="w-[47%] min-w-0 shrink">
+      {%- endif %}
+      {%- endfor %}
+    </div>
+    {%- endif %}
+  </div>
+</section>

@@ -1,0 +1,9 @@
+{%- assign centred = include.center -%}
+<div class="{% if centred %}text-center{% endif %} {{ include.class }}">
+  <p class="eyebrow">{{ include.eyebrow }}</p>
+  <h2 class="mt-3 text-4xl sm:text-5xl">{{ include.title }}</h2>
+  <div class="mt-5 h-1 w-16 bg-brand {% if centred %}mx-auto{% endif %}" aria-hidden="true"></div>
+  {%- if include.lede and include.lede != "" %}
+  <p class="mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg {% if centred %}mx-auto{% endif %}">{{ include.lede }}</p>
+  {%- endif %}
+</div>

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "hawley-hoe-down-2026-10-04",
+    "date": "2026-10-04",
+    "start_time": "12:30",
+    "end_time": "13:30",
+    "venue": "Bingham Park Gazebo",
+    "city": "Hawley, PA",
+    "map_url": "",
+    "url": "",
+    "notes": "The Hawley Hoe Down"
+  },
+  {
+    "id": "hasbrouck-tavern-2026-10-14",
+    "date": "2026-10-14",
+    "start_time": "18:00",
+    "end_time": "21:00",
+    "venue": "The Hasbrouck Tavern",
+    "city": "",
+    "map_url": "",
+    "url": "",
+    "notes": "Wing Night"
+  },
+  {
+    "id": "hideout-clubhouse-2027-01-15",
+    "date": "2027-01-15",
+    "start_time": "19:00",
+    "end_time": "",
+    "venue": "The Hideout Clubhouse",
+    "city": "",
+    "map_url": "",
+    "url": "",
+    "notes": ""
+  }
+]
