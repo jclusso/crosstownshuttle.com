@@ -96,24 +96,52 @@
 
   if (lightbox && typeof lightbox.showModal === "function") {
     const image = $("[data-lightbox-image]", lightbox);
+    const surface = $("[data-lightbox-surface]", lightbox);
+    const counter = $("[data-lightbox-counter]", lightbox);
     const blank = image.getAttribute("src");
+    const buttons = $$("[data-lightbox-open]");
+    let index = 0;
 
-    $$("[data-lightbox-open]").forEach((button) => {
+    const show = (next) => {
+      index = (next + buttons.length) % buttons.length;
+      const button = buttons[index];
+      image.src = button.dataset.src;
+      image.alt = button.dataset.alt || "";
+      counter.textContent = `${index + 1} / ${buttons.length}`;
+    };
+
+    buttons.forEach((button, i) => {
       button.addEventListener("click", () => {
-        image.src = button.dataset.src;
-        image.alt = button.dataset.alt || "";
+        show(i);
         lightbox.showModal();
       });
     });
 
+    $("[data-lightbox-prev]", lightbox)?.addEventListener("click", () => show(index - 1));
+    $("[data-lightbox-next]", lightbox)?.addEventListener("click", () => show(index + 1));
     $("[data-lightbox-close]", lightbox)?.addEventListener("click", () => lightbox.close());
+
     lightbox.addEventListener("click", (event) => {
-      if (event.target === lightbox) lightbox.close();
+      if (event.target === lightbox || event.target === surface) lightbox.close();
     });
+
+    lightbox.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") show(index - 1);
+      else if (event.key === "ArrowRight") show(index + 1);
+      else return;
+      event.preventDefault();
+    });
+
     lightbox.addEventListener("close", () => {
       image.src = blank;
       image.alt = "";
+      buttons[index]?.focus();
     });
+
+    if (buttons.length < 2) {
+      $$("[data-lightbox-prev],[data-lightbox-next]", lightbox).forEach((b) => b.remove());
+      counter.remove();
+    }
   }
 
   /* Booking form ---------------------------------------------------------- */
